@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<head>
+<style>
+    body {background-color: #191919}
+    .box {background-color: white}
+</style>
+</head>
+<body>
+    <textarea id='input' cols='1' rows='20'></textarea><br>
+    <button id='submit' type='button'>Calculate</button><br>
+    <div id='mean' class='box'></div>
+    <div id='median' class='box'></div>
+    <div id='midrange' class='box'></div>
+    
+<script type='text/javascript'>
+window.onload=function()
+{
+    var but = document.getElementById('submit');
+    
+    document.getElementById('submit').addEventListener('click', calculate);
+    
+    //BEGIN MATH
+    function calculate()
+    {
+        let text = document.getElementById('input');
+        let data = text.value.split('\n');
+        let mean = 0;
+        let median = 0;
+        let midrange = 0;
+        
+        mean = getMean(data);
+        median = getMedian(data);
+        midrange = getMidrange(data);
+        
+        document.getElementById('mean').innerHTML = 'Mean: ' + mean;
+        document.getElementById('median').innerHTML = 'Median: ' + median;
+        document.getElementById('midrange').innerHTML = 'Midrange: ' + midrange;
+    }
+    
+    /**********MEAN**********/
+    //Obtains the mean of the text area and outputs it to the text area
+    function getMean(data)
+    {
+        //this adds the array together
+        let sum = data.reduce(getSum);
+        
+        sum = sum/data.length;
+        
+        return sum;
+    }
+    
+    //Function of the reduce call above
+    function getSum(total, num)
+    {
+        return parseFloat(total) + parseFloat(num);
+    }
+    
+    /*********MEDIAN**********/
+    function getMedian(data)
+    {
+        data.sort();
+        let median = 0
+        let max = data.length - 1;
+        
+        if (data.length % 2 == 0)
+        {
+            let lower = parseFloat(max/2) - 0.5;
+            let higher = parseFloat(max/2) + 0.5;
+            console.log(parseFloat(data[higher]) + parseFloat(data[lower]));
+            
+            median = (parseFloat(data[higher]) + parseFloat(data[lower]))/2;
+        }
+        else 
+        {
+            median = data[max/2];
+        }
+        
+        return median;
+    }
+    
+    /***********MIDRANGE*********/
+    function getMidrange(data)
+    {
+        data.sort();
+        let midrange = 0;
+        let max = data.length - 1;
+        
+        midrange = (parseFloat(data[max]) + parseFloat(data[0]))/2
+        
+        return midrange;
+    }
+}
+</script>
+</body>
